@@ -21,8 +21,6 @@ private/
 *.log
 npm-debug.log*
 
-# Private project documentation
-docs/
 yarn-debug.log*
 pnpm-debug.log*
 
@@ -40,4 +38,7 @@ Thumbs.db
 
 # Temporary files
 tmp/
+
+
 temp/
+docs/
