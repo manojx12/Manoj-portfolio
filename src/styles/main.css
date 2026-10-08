@@ -1,0 +1,1018 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   MANOJ · SECTION A–A — design tokens (mirrored in src/config/palette.ts)
+   ─────────────────────────────────────────────────────────────────────────── */
+:root {
+  --paper: #ece6da;
+  --paper-deep: #dcd3c2;
+  --ink: #16181d;
+  --graphite: #5c616c;
+  --ultra: #2d3bff;
+  --ultra-soft: #9aa2ff;
+  --night: #0e1120;
+  --lamp: #ffd7a1;
+
+  /* Themeable roles */
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --muted: var(--graphite);
+  --accent: var(--ultra);
+  --rule: rgba(22, 24, 29, 0.16);
+  --rule-strong: rgba(22, 24, 29, 0.42);
+  --scrim: rgba(236, 230, 218, 0.94);
+
+  --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --fs-mega: clamp(4.5rem, 15vw, 13.5rem);
+  --fs-h2: clamp(2.3rem, 4.6vw, 4.4rem);
+  --fs-h3: clamp(1.25rem, 1.8vw, 1.6rem);
+  --fs-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --fs-label: 0.75rem;
+
+  --gutter: clamp(1rem, 3vw, 2.5rem);
+  --rail: clamp(1rem, 5vw, 5.5rem);
+  --copy-w: 36rem;
+  --ease-plot: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: light;
+}
+
+:root[data-theme='night'] {
+  --bg: var(--night);
+  --fg: #ede9e1;
+  --muted: #a8adbd;
+  --accent: var(--ultra-soft);
+  --rule: rgba(237, 233, 225, 0.16);
+  --rule-strong: rgba(237, 233, 225, 0.42);
+  --scrim: rgba(14, 17, 32, 0.88);
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.8s ease, color 0.8s ease;
+}
+
+h1,
+h2,
+h3,
+p,
+ol,
+ul,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.skip {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.6rem 0.9rem;
+  background: var(--fg);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transform: translateY(-160%);
+}
+.skip:focus {
+  transform: none;
+}
+
+.annot {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── Type ─────────────────────────────────────────────────────────────────── */
+.mega {
+  font-size: var(--fs-mega);
+  font-weight: 720;
+  line-height: 0.84;
+  letter-spacing: -0.05em;
+  margin: 0.15em 0 0.12em -0.04em;
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  font-weight: 660;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  max-width: 13ch;
+  margin-bottom: 1.4rem;
+  text-wrap: balance;
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  font-weight: 620;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.copy p {
+  max-width: 38ch;
+}
+.copy p.annot {
+  max-width: none;
+}
+.copy p + p {
+  margin-top: 0.9em;
+}
+
+.role {
+  font-size: var(--fs-h3);
+  font-weight: 560;
+  letter-spacing: -0.01em;
+}
+.lede {
+  margin-top: 0.6rem;
+  color: var(--muted);
+}
+.annot--cue {
+  margin-top: 2.2rem;
+}
+.cue-touch {
+  display: none;
+}
+@media (pointer: coarse) {
+  .cue-touch {
+    display: inline;
+  }
+  .cue-pointer {
+    display: none;
+  }
+}
+
+.rule {
+  display: block;
+  width: min(100%, 22rem);
+  height: 1px;
+  margin: 0.9rem 0 1.1rem;
+  background: var(--rule-strong);
+  transform-origin: left center;
+}
+
+/* Lists, tables, facts — drawn like a drawing's schedules */
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1.4rem;
+  margin-top: 1.6rem;
+  max-width: 30rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+.facts div {
+  display: contents;
+}
+.facts dt,
+.project__meta dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  padding-top: 0.2em;
+}
+
+.principles {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.4rem;
+  counter-reset: p;
+  display: grid;
+  gap: 1rem;
+  max-width: 32rem;
+}
+.principles li {
+  counter-increment: p;
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  column-gap: 0.4rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+.principles li::before {
+  content: counter(p, decimal-leading-zero);
+  grid-row: span 2;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: var(--accent);
+  padding-top: 0.35em;
+}
+.principles p {
+  color: var(--muted);
+  margin-top: 0.25rem;
+  font-size: 0.97em;
+}
+
+.schedule {
+  border-collapse: collapse;
+  margin-top: 1.4rem;
+  width: min(100%, 32rem);
+}
+.schedule caption {
+  text-align: left;
+  padding-bottom: 0.6rem;
+}
+.schedule th,
+.schedule td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.6rem 0.8rem 0.6rem 0;
+  border-top: 1px solid var(--rule);
+}
+.schedule thead th {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  border-top: 1px solid var(--rule-strong);
+}
+.schedule tbody th {
+  font-weight: 620;
+  white-space: nowrap;
+}
+
+.projects {
+  display: grid;
+  margin-top: 0.6rem;
+}
+.project h3 {
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  margin: 0.4rem 0 0.7rem;
+}
+.project__meta {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.3rem 1.2rem;
+  margin: 1.1rem 0 1.2rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rule);
+  max-width: 30rem;
+}
+.project__meta div {
+  display: contents;
+}
+
+.link,
+.elsewhere a {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+.link::after {
+  content: ' ↗';
+}
+.link:hover,
+.elsewhere a:hover {
+  color: var(--accent);
+}
+
+.experiments {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.3rem;
+  max-width: 34rem;
+}
+.experiments li {
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+}
+.experiments strong {
+  color: var(--fg);
+  font-weight: 620;
+}
+
+.signal {
+  display: inline-grid;
+  max-width: 100%;
+  gap: 0.2rem;
+  margin-top: 1.8rem;
+  padding: 1rem 1.2rem 1.05rem;
+  border: 1px solid var(--rule-strong);
+  text-decoration: none;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+.signal__address {
+  /* Small enough on a phone that the address doesn't break mid-domain. */
+  font-size: clamp(0.95rem, 1.6vw, 1.35rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+.signal:hover,
+.signal:focus-visible {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.signal:hover .signal__label,
+.signal:focus-visible .signal__label {
+  color: var(--accent);
+}
+
+.elsewhere {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.4rem;
+  display: flex;
+  gap: 1.6rem;
+}
+.colophon {
+  margin-top: 2.4rem;
+  max-width: 44ch;
+  line-height: 1.7;
+}
+
+/* ─── Fallback drawing (plain view hero) ───────────────────────────────────── */
+.drawing {
+  display: none;
+  margin-top: 2.5rem;
+  max-width: 34rem;
+}
+.drawing svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.d-ground,
+.d-thin {
+  stroke: var(--fg);
+  stroke-width: 1;
+}
+.d-wall {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 1;
+}
+.d-poche rect {
+  fill: var(--fg);
+}
+.d-lamp {
+  fill: var(--lamp);
+  stroke: var(--fg);
+}
+.d-figure {
+  fill: var(--ultra);
+}
+.d-labels text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--muted);
+}
+
+/* ─── Chrome: masthead, level rail, title block ────────────────────────────── */
+.masthead {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(var(--gutter) * 0.7 + env(safe-area-inset-top)) var(--gutter) 0;
+  pointer-events: none;
+}
+.masthead a {
+  pointer-events: auto;
+}
+.brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+.brand__name {
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+.brand__meta,
+.masthead__cta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.brand__meta {
+  color: var(--muted);
+}
+.masthead__cta {
+  text-decoration: none;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--rule-strong);
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.masthead__cta:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.levels,
+.titleblock,
+.loader,
+.cursor,
+.stage {
+  display: none;
+}
+
+/* ─── Plain view (default without WebGL, or when chosen) ───────────────────── */
+.chapter {
+  padding: clamp(5rem, 12vh, 8rem) var(--gutter) clamp(3rem, 8vh, 5rem);
+  max-width: 64rem;
+  margin: 0 auto;
+}
+.chapter + .chapter {
+  border-top: 1px solid var(--rule);
+}
+.chapter--site {
+  padding-top: clamp(7rem, 18vh, 10rem);
+}
+.is-plain .drawing,
+.no-js .drawing {
+  display: block;
+}
+:root:not(.is-3d) .project + .project {
+  margin-top: 2.4rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--rule);
+}
+/* The fixed masthead gets a backing wherever copy scrolls underneath it. */
+.is-plain .masthead,
+.no-js .masthead {
+  padding-bottom: calc(var(--gutter) * 0.7);
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+}
+.is-plain .titleblock {
+  display: flex;
+  position: fixed;
+  right: var(--gutter);
+  bottom: calc(var(--gutter) + env(safe-area-inset-bottom));
+  z-index: 20;
+}
+.is-plain .titleblock > :not(.titleblock__toggle) {
+  display: none;
+}
+.titleblock {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.is-plain .annot--cue,
+.no-js .annot--cue {
+  display: none;
+}
+
+/* ─── Loader ───────────────────────────────────────────────────────────────── */
+.js:not(.is-plain) .loader {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--paper);
+  color: var(--ink);
+  transition: clip-path 0.7s var(--ease-plot), visibility 0s linear 0.7s;
+  clip-path: inset(0 0 0 0);
+}
+.js .loader.is-done {
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+}
+.loader__sheet {
+  width: min(22rem, 80vw);
+}
+.loader__name {
+  font-size: clamp(3rem, 9vw, 5rem);
+  font-weight: 720;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  margin: 0.4rem 0 1.2rem;
+}
+.loader__rule {
+  height: 1px;
+  background: rgba(22, 24, 29, 0.16);
+  overflow: hidden;
+}
+.loader__fill {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform-origin: left;
+  transform: scaleX(var(--p, 0));
+  transition: transform 0.35s var(--ease-out);
+}
+.loader__status {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.7rem;
+}
+
+/* ─── Immersive (3D) mode ──────────────────────────────────────────────────── */
+.is-3d .stage {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  transition: opacity 0.22s ease;
+}
+.is-3d .stage.is-cutting {
+  opacity: 0;
+}
+.is-3d canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.is-3d main {
+  position: relative;
+  z-index: 1;
+}
+.is-3d .chapter {
+  height: calc(var(--len, 2) * 100svh);
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.is-3d .chapter__panel {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 5.5rem var(--gutter) 6rem calc(var(--rail) + var(--gutter));
+  pointer-events: none;
+}
+.is-3d .chapter__panel::before {
+  /* Legibility scrim: solid under the whole copy column and fading only past its right edge, so
+     no part of the scene sits behind body text. Functional, not decoration. */
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: min(calc(var(--rail) + var(--gutter) + var(--copy-w) + 8rem), 100%);
+  background: linear-gradient(90deg, var(--scrim) calc(100% - 8rem), transparent);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.is-3d .chapter.is-in .chapter__panel::before {
+  opacity: 1;
+}
+.is-3d .copy {
+  position: relative;
+  width: min(var(--copy-w), 100%);
+  pointer-events: auto;
+}
+.is-3d .chapter--site .copy {
+  width: min(52rem, 100%);
+}
+.is-3d .chapter--site .chapter__panel::before {
+  opacity: 0.55;
+}
+
+/* Plotted reveal: a pen draws the rule, the heading is wiped in behind it. */
+.is-3d .copy > * {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.is-3d .copy > h1,
+.is-3d .copy > h2 {
+  transform: none;
+  clip-path: inset(-0.2em 100% -0.2em 0);
+  transition: clip-path 0.35s var(--ease-plot), opacity 0.35s ease;
+}
+.is-3d .copy > .rule {
+  transform: scaleX(0);
+  transition: transform 0.35s var(--ease-plot), opacity 0.2s ease;
+}
+.is-3d .chapter.is-in .copy > *,
+.is-3d .chapter:focus-within .copy > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s ease calc(0.18s + var(--i, 0) * 0.08s), transform 0.8s var(--ease-out) calc(0.18s + var(--i, 0) * 0.08s);
+}
+.is-3d .chapter.is-in .copy > .rule,
+.is-3d .chapter:focus-within .copy > .rule {
+  transform: scaleX(1);
+  transition: transform 0.9s var(--ease-plot), opacity 0.3s ease;
+}
+.is-3d .chapter.is-in .copy > h1,
+.is-3d .chapter.is-in .copy > h2,
+.is-3d .chapter:focus-within .copy > h1,
+.is-3d .chapter:focus-within .copy > h2 {
+  clip-path: inset(-0.2em -0.1em -0.2em 0);
+  opacity: 1;
+  transition: clip-path 1s var(--ease-plot) 0.12s, opacity 0.2s ease;
+}
+
+/* Projects stack in one place; only the one on the plinth in focus is shown. */
+.is-3d .project {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.is-3d .project.is-in,
+.is-3d .project:focus-within {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity 0.6s ease 0.1s, transform 0.7s var(--ease-out) 0.1s;
+}
+/* Keyboard focus wins over scroll position, so tabbing never stacks two projects' text. */
+.is-3d .projects:focus-within .project:not(:focus-within) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Level rail: elevation datums on the right edge, as on a section drawing. */
+.is-3d .levels {
+  display: block;
+  position: fixed;
+  right: var(--gutter);
+  top: 50%;
+  z-index: 20;
+  transform: translateY(-50%);
+}
+.levels ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 0.55rem;
+}
+.levels a {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 0.6rem;
+  text-shadow: 0 0 6px var(--bg), 0 0 2px var(--bg);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  padding: 0.15rem 0;
+}
+.levels__mark::after {
+  content: '';
+  display: inline-block;
+  width: 0.9rem;
+  height: 1px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+  background: currentColor;
+  transition: width 0.4s var(--ease-out);
+}
+.levels__name {
+  opacity: 0;
+  transform: translateX(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  text-transform: uppercase;
+}
+.levels a:hover .levels__name,
+.levels a:focus-visible .levels__name,
+.levels a[aria-current='true'] .levels__name {
+  opacity: 1;
+  transform: none;
+}
+.levels a[aria-current='true'] {
+  color: var(--accent);
+}
+.levels a[aria-current='true'] .levels__mark::after {
+  width: 1.8rem;
+}
+
+/* Title block, bottom right, like a drawing sheet's. */
+.is-3d .titleblock {
+  display: grid;
+  position: fixed;
+  right: var(--gutter);
+  bottom: calc(var(--gutter) + env(safe-area-inset-bottom));
+  z-index: 20;
+  grid-template-columns: auto 1fr auto;
+  width: 19rem;
+  border: 1px solid var(--rule-strong);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.titleblock__cell {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.45rem 0.6rem;
+  border-right: 1px solid var(--rule);
+}
+.titleblock__cell:nth-child(3) {
+  border-right: 0;
+}
+.titleblock__label {
+  color: var(--muted);
+  font-size: 0.6rem;
+}
+.titleblock__value {
+  color: var(--fg);
+  white-space: nowrap;
+}
+.titleblock__bar {
+  grid-column: 1 / -1;
+  height: 2px;
+  background: var(--rule);
+}
+.titleblock__bar span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+.titleblock__toggle {
+  grid-column: 1 / -1;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--fg);
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--rule);
+  padding: 0.55rem 0.6rem;
+  text-align: left;
+  cursor: pointer;
+}
+.is-plain .titleblock__toggle {
+  border: 1px solid var(--rule-strong);
+  background: var(--bg);
+}
+.titleblock__toggle:hover {
+  color: var(--accent);
+}
+.titleblock__toggle::before {
+  content: '◻ ';
+}
+.titleblock__toggle[aria-pressed='true']::before {
+  content: '◼ ';
+}
+
+/* ─── Cursor (fine pointers only; mounted by JS) ───────────────────────────── */
+.has-cursor .cursor {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 80;
+  pointer-events: none;
+  color: var(--fg);
+}
+.cursor__cross,
+.cursor__ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  translate: -50% -50%;
+}
+.cursor__cross {
+  width: 11px;
+  height: 11px;
+  transition: opacity 0.2s ease;
+}
+.cursor__cross::before,
+.cursor__cross::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+}
+.cursor__cross::before {
+  left: 5px;
+  top: 0;
+  width: 1px;
+  height: 11px;
+}
+.cursor__cross::after {
+  top: 5px;
+  left: 0;
+  height: 1px;
+  width: 11px;
+}
+.cursor__ring {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  scale: 0.2;
+  opacity: 0;
+  transition: scale 0.35s var(--ease-out), opacity 0.25s ease;
+}
+.cursor__label {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 6px);
+  translate: -50% 0;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--accent);
+}
+.cursor[data-state='hover'] .cursor__ring {
+  scale: 1;
+  opacity: 1;
+}
+.cursor[data-state='hover'] .cursor__cross {
+  opacity: 0;
+}
+.cursor.is-pressed .cursor__ring {
+  scale: 0.85;
+}
+
+/* ─── Small screens / portrait ──────────────────────────────────────────────
+   A sticky sheet cannot hold a long chapter on a phone without covering the figure, so the copy
+   flows instead: each chapter opens on a clear view of the scene (the camera hold), then the copy
+   scrolls up over it as an opaque paper card. Nothing is clipped; story time still maps through
+   the measured section bounds. */
+@media (max-width: 760px), (max-aspect-ratio: 4/5) {
+  .is-3d .chapter {
+    height: auto;
+    min-height: calc(var(--len, 2) * 100svh);
+    padding: 56svh 0 34svh;
+  }
+  .is-3d .chapter--site {
+    padding-top: 54svh;
+  }
+  .is-3d .chapter--roof {
+    padding-bottom: 6rem;
+  }
+  .is-3d .chapter__panel {
+    position: static;
+    height: auto;
+    display: block;
+    padding: 0 var(--gutter);
+    pointer-events: auto;
+  }
+  .is-3d .chapter__panel::before {
+    display: none;
+  }
+  .is-3d .copy {
+    width: auto;
+    padding: 1.25rem 1.1rem 1.4rem;
+    background: var(--bg);
+    border-top: 1px solid var(--rule-strong);
+  }
+  .is-3d .chapter--site .copy {
+    width: auto;
+  }
+  /* In flow, copy is simply there: no threshold reveals. */
+  .is-3d .copy > *,
+  .is-3d .chapter .copy > h1,
+  .is-3d .chapter .copy > h2,
+  .is-3d .chapter .copy > .rule {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+  .is-3d .projects {
+    display: block;
+  }
+  .is-3d .project,
+  .is-3d .projects:focus-within .project:not(:focus-within) {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .is-3d .project + .project {
+    margin-top: 2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .is-3d h2 {
+    font-size: clamp(1.9rem, 8vw, 2.6rem);
+    margin-bottom: 0.8rem;
+  }
+  .is-3d .mega {
+    font-size: clamp(3.8rem, 22vw, 6.5rem);
+  }
+  .is-3d .rule {
+    margin: 0.6rem 0 0.8rem;
+  }
+
+  .is-3d .masthead {
+    padding-bottom: calc(var(--gutter) * 0.7);
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* The level rail stays available to assistive tech but leaves the small screen to the scene. */
+  .is-3d .levels {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  /* Title block becomes a slim status strip at the bottom. */
+  .is-3d .titleblock {
+    left: var(--gutter);
+    right: var(--gutter);
+    width: auto;
+    bottom: calc(0.8rem + env(safe-area-inset-bottom));
+    grid-template-columns: auto 1fr auto;
+  }
+  .is-3d .titleblock__cell--wide {
+    display: none;
+  }
+  .is-3d .titleblock__cell:nth-child(1) {
+    border-right: 1px solid var(--rule);
+  }
+  .is-3d .titleblock__toggle {
+    grid-column: auto;
+    grid-row: 1;
+    grid-column-start: 3;
+    border-top: 0;
+    border-left: 1px solid var(--rule);
+  }
+  .is-3d .titleblock__bar {
+    grid-row: 2;
+  }
+}
+
+/* ─── Reduced motion: opacity only, no travel ──────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .is-3d .copy > *,
+  .is-3d .project {
+    transform: none !important;
+  }
+  .is-3d .copy > h1,
+  .is-3d .copy > h2 {
+    clip-path: none !important;
+  }
+  .is-3d .copy > .rule {
+    transform: scaleX(1) !important;
+  }
+  .loader {
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s !important;
+  }
+  .js .loader.is-done {
+    clip-path: none;
+    opacity: 0;
+  }
+}
